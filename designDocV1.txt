@@ -25,9 +25,9 @@ Design requirements:
 	Handle errors gracefully, specifically invalid ABN cases and page selector not 	found (check playwright docs otherwise can build it into the script)
 
 	
-	Log page metadata, access timestamp (other important info will be come apparent) 	with the option to return associated info when querying saved ABN details
+	Log page metadata, access timestamp (other important info will be come apparent) with the option to return associated info when querying saved ABN details
 	
-	Containerise application with docker, will simplify setup instructions (need to 	look into industry practice using docker, see docs)
+	Containerise application with docker, will simplify setup instructions (need to look into industry practice using docker, see docs)
 
 
 	Include documentation with 
@@ -39,9 +39,9 @@ Design requirements:
 
 Design characteristics 
 	
-	Python based automation script using browser automating tooling (likely playwright) 	that will do most of the heavy lifting 
+	Python based automation script using browser automating tooling (likely playwright) what will do most of the heavy lifting 
 
-	Main script will be the databasing, accessing and logging (plus error handling 	playwright doesn't catch/edge cases)
+	Main script will be the databasing, accessing and logging (plus error handling incase playwright doesn't catch/edge cases)
 
 	
 	Intitial user plane can let them choose headless/open a browser in the background
@@ -66,31 +66,36 @@ Design constraints
 	
 	
 
-Basic approach pseudo code
+Basic approach to main definitions, assume I will loop through the text based UI with some baked in error handling, watching input etc
 
 
 imports
-json
-
-
-
 
 
 # Initial text prompt, friendly message - relates to operation instructions in docs
+# Simple text based menu, runs in terminal
+	def userSurfaceEntry
 
-def userSurfaceEntry
 
+# hold user input - need to look into best practice and efficiency, do I just nest dictionaries considering json is the main format
+	def dataContainers
+
+#Retreives and presents user with data from containers to the UI
+	def dataRetrieve
+# event logger - Can probably find a nice library that can help show me ways of doing this and what important aspects should be monitored in this kind of app
+	def eventLogger
+	triggered on user input
+	triggered on playwright calls
+	
 def getPageElements
 	playwrite test > json
+	pass to ui
 
-#
-def dbDataTypes
-	
+# On startup asks user if they want their queries to persist across uses. Find out which SQL library is appropriate
+	def dbStorge
 
-#
-def dbStorge
-#
-def dbCompPresent
+# Retrives and compiles txt doc in users working directory or folder if specified (maybe- KISS)
+	def storageRetrieve  
 
 
-def 
+
