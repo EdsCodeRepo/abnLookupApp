@@ -1,0 +1,96 @@
+Read through Docs find relevant examples;
+	Playwright - quick glance, state based automation tests check actionability, 	plenty of inbuilt error handling and tracing available.
+	
+	Docker - find out what I don't know
+
+
+Problem statement: 
+
+	A small tool is required to extract ABN data from their webpage 
+	the publicly available data base, format the data and save to a
+ 	database in a structured format.
+
+
+Design requirements:
+
+	Accept ABN as input into CLI or a config file (perhaps,
+	secondary pathway might be useful or bloat, will consider)
+
+	Utilize browser automation (likely playwright)
+
+	Must navigate to ABN lookup, preform search using users supplied ABN and 
+	extract Entity name, ABN status (Active/Cancelled), entity type and save result
+	formatted as a JSON file.
+
+	Handle errors gracefully, specifically invalid ABN cases and page selector not 	found (check playwright docs otherwise can build it into the script)
+
+	
+	Log page metadata, access timestamp (other important info will be come apparent) 	with the option to return associated info when querying saved ABN details
+	
+	Containerise application with docker, will simplify setup instructions (need to 	look into industry practice using docker, see docs)
+
+
+	Include documentation with 
+		explicit setup instructions (environment reproduction)
+		How to operate the script (CLI or config instructions)
+		Any assumptions made 
+
+		
+
+Design characteristics 
+	
+	Python based automation script using browser automating tooling (likely playwright) 	that will do most of the heavy lifting 
+
+	Main script will be the databasing, accessing and logging (plus error handling 	playwright doesn't catch/edge cases)
+
+	
+	Intitial user plane can let them choose headless/open a browser in the background
+
+	 
+
+	
+
+
+Design constraints
+
+	Best practice should be followed with file structure ie
+	no singular .py file, defined entry point for reusability, no storing secrets (if 	any) in plaintext. Example file structure provided:
+
+	abn-lookup/
+	      main.py
+	      abn_lookup.py
+              utils.py
+	      reqs.txt
+	      README.md
+
+	
+	
+
+Basic approach pseudo code
+
+
+imports
+json
+
+
+
+
+
+# Initial text prompt, friendly message - relates to operation instructions in docs
+
+def userSurfaceEntry
+
+def getPageElements
+	playwrite test > json
+
+#
+def dbDataTypes
+	
+
+#
+def dbStorge
+#
+def dbCompPresent
+
+
+def 
