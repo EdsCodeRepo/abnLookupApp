@@ -7,8 +7,7 @@ Read through Docs find relevant examples;
 
 Problem statement: 
 
-	A small tooling script is required to extract ABN details from the pub facing webpage,
-	format the data, present to the user in a meaningful way and export to to a
+	A small tooling script is required to extract ABN details from the pub facing webpage,format the data, present to the user in a meaningful way and export to to a
  	text file in a structured format. 
 
 
@@ -107,6 +106,7 @@ def getPageElements
 
 # Retrives and compiles txt doc in users working directory or folder if specified (maybe- KISS)
 	def storageRetrieve  
+
 
 
 
