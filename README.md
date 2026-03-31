@@ -141,17 +141,10 @@ Build the image:
 
 docker build --no-cache -t abnlookup-app:dev .
 
-Run with interactive menu:
-
-docker run --rm -it abnlookup-app:dev
-
-Run directly with an ABN:
+Run directly from CLI entry with(replace ABN no):
 
 docker run --rm -it abnlookup-app:dev python main.py --abn 51824753556 --headless
 
-Run in headed mode:
-
-docker run --rm -it abnlookup-app:dev python main.py --abn 51824753556
 
 ## Troubleshooting
 
