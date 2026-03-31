@@ -14,6 +14,7 @@ from utils.logger import logEvent
 from services.adapter import runAbnLookup
 # from services.adapter import lookup_abn_with_playwright
 # from storage.repository import save_record
+from services.helpers import exportRecordJson
 
 def abnLookUp(abn=None):
     print()  
@@ -76,7 +77,9 @@ def abnLookUp(abn=None):
             recordId = saveRecord(adapterResult)
             logEvent(f"Record for {abnNo} saved successfully with ID: {recordId}")
         
-        
+        adapterResult["exportPath"] = None
+        jsonPath = exportRecordJson(adapterResult)
+        logEvent(f"Record for {abnNo} exported to JSON at: {jsonPath}")
         
         logEvent(f"lookup for {abnNo} succeeded")
         return {
