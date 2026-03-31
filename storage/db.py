@@ -36,7 +36,7 @@ def saveRecord(recordedData):
     # Create the records table if it doesn't exist
     
     cursor.execute(""" 
-        INSERT INTO records(abn, name, status, entityType, timestamp, export_path, screenshot_path)
+        INSERT INTO records(abn, name, status, entityType, timestamp, export_Path, screenshot_Path)
         VALUES (?, ?, ?, ?, ?, ?, ?) """,
        (
         recordedData['abn'],
@@ -44,8 +44,8 @@ def saveRecord(recordedData):
         recordedData['status'],
         recordedData['entityType'],
         recordedData['timestamp'],
-        recordedData.get('export_path'),
-        recordedData.get('screenshot_path')
+        recordedData.get('exportPath'),
+        recordedData.get('screenshotPath')
       ))
 
     conn.commit()
@@ -57,7 +57,7 @@ def saveRecord(recordedData):
 def getAllRecords():
     conn = sqlite3.connect("abnlookup.db")
     cursor = conn.cursor()
-    cursor.execute("""SELECT id, abn, name, status, entityType, timestamp, export_path, screenshot_path 
+    cursor.execute("""SELECT id, abn, name, status, entityType, timestamp, export_Path, screenshot_Path 
                       FROM records
                       ORDER BY id DESC
     """)               
