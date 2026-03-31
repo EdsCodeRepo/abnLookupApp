@@ -22,11 +22,11 @@ from services.helpers import terminalPause
 def main():
     # Parse command-line arguments
     parser = argparse.ArgumentParser(description="ABN Lookup Tool")
-    parser.add_argument("--headless", action="store_true", help="Run in headless mode")
-    parser.add_argument("--abn", help="Enter ABN to look up directly from command line")
+    parser.add_argument("--headless", action = "store_true", help = "Run in headless mode")
+    parser.add_argument("--abn", help = "Enter ABN to look up directly from command line")
     args = parser.parse_args()
     initDatabase()
-
+    # still need to give the option to run menu loop or a single loopup in either headless or headed mode
     if args.headless:
         print("Running in headless mode.")
     if args.abn:
@@ -42,6 +42,10 @@ def main():
         else:
             print(f"Error: {lookupResult['message']}")
             terminalPause()
+        nextStep = input("Enter 'm' to return to the menu or any other key to exit: ").lower().strip()
+        if nextStep == "m":
+            menuLoop()
+    
     else:
         menuLoop()# Load configuration
     
