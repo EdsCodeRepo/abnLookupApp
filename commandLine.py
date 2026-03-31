@@ -42,13 +42,15 @@ def menuLoop():
                 lookupResult = abnLookUp()  # main input for the lookup checks for the respective function that passes it as a argument for the function
                 
                 if lookupResult["success"]:
-                    print("\nABN Lookup Successful!")
-                    print("Here are the details:")
-                    print(f"ABN: {lookupResult['abn']}")
-                    print(f"Name: {lookupResult['name']}")
-                    print(f"Status: {lookupResult['status']}")
-                    print(f"Entity Type: {lookupResult['entityType']}")
-                    print(f"Timestamp: {lookupResult['timestamp']}")
+                    currentRecord = lookupResult['data']
+                    
+                    print("\nLookup Successful! Here are the details:\n")
+                    
+                    print(f"ABN: {currentRecord['abn']}")
+                    print(f"Name: {currentRecord['name']}")
+                    print(f"Status: {currentRecord['status']}")
+                    print(f"Entity Type: {currentRecord['entityType']}")
+                    print(f"Timestamp: {currentRecord['timestamp']}")
                 else:
                     print(f"Error: {lookupResult['message']}")           
             
