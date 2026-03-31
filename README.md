@@ -108,7 +108,7 @@ python -m playwright install
 
 ## Usage
 
-CLI usage: (remove headless to open browser and insert 11 ABN of choice)
+CLI usage: (remove headless to open browser and insert 11 digit ABN no. of choice)
 
     Run a lookup directly from the command line:
 
