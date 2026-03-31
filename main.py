@@ -10,7 +10,7 @@ pass control to the CLI layer
 from commandLine import menuLoop
 
 import utils.config as config
-import storage.db as db
+from storage.db import initDatabase
 #start the application
 
 
@@ -20,9 +20,10 @@ def main():
     # Load configuration
     
     # Initialize database
-    from storage.db import initDatabase
     initDatabase()
-
+    #Starts playwright service
+    #initLookup()
+    # Start the CLI menu loop with lookup service passed through as arg
     menuLoop()
    
 

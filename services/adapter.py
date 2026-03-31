@@ -9,3 +9,6 @@ capture screenshot when requested
 translate automation outcomes into structured results or errors
 
 """
+
+
+

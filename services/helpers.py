@@ -8,21 +8,8 @@ trigger optional export or screenshot operations
 return a clean result object to the CLI
 
 """
+from storage.db import recordList, dbList
 
-
-def abnLookUp():
-    # Placeholder for ABN lookup logic
-    # This is where you would integrate with the Playwright adapter to perform the actual lookup
-    # For now, we'll just return a dummy result
-    result = {
-        "abn": "123456789",
-        "name": "Dummy Company Pty Ltd",
-        "status": "Active",
-        "timestamp": "2024-06-01T12:00:00Z",
-        "export_path": "/path/to/exported/data.txt",
-        "screenshot_path": "/path/to/screenshot.png"
-    }
-    return result
 
 def retreiveRecord():
     # Placeholder for record retrieval logic

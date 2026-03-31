@@ -6,11 +6,14 @@ pass actions to the service layer
 display results and errors in user-friendly language
 
 This layer should not know how Playwright works internally and should not directly run SQL.
+
+
+keep only menu display, input parsing, and result printing.
 """
 
 
-from storage.db import recordList, dbList
-from services.helpers import abnLookUp, retreiveRecord, requestRecord, deleteRecord, exportRecord   
+from services.lookupService import abnLookUp
+from services.helpers import  retreiveRecord, requestRecord, deleteRecord, exportRecord   
 
 
 
@@ -23,8 +26,8 @@ def menuLoop():
         print("--|       Lookup ABN          Enter: 1         |--")
         print("--|       View Saved Records  Enter: 2         |--")
         print("--|       Export a Record     Enter: 3         |--")
-        print("--|       Settings            Enter: 4         |--")
-        print("--|       Generate Report     Enter: 5         |--")
+        print("--|       Delete a Record     Enter: 4         |--")
+        print("--|       Settings            Enter: 5         |--")
         print("--|       Close Program       Enter: 0         |--")
         print("--------------------------------------------------")
         #another try except, with the main user input at the very start expecting an int
@@ -37,7 +40,7 @@ def menuLoop():
                 break
             elif choice == 1:
                 # no need to call pass (prodID) here as its all handled within the function based on what the user has input already
-                abnLookup()
+                abnLookUp()
             elif choice == 2:
                 # main input for the lookup checks for the respective function that passes it as a argument for the function
                 requestRecord() 
