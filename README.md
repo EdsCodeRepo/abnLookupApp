@@ -92,23 +92,35 @@ Docker installed - optional
 ## Installation
 Make sure you have virtual environment installed:
 
-apt install python3.13-venv
 
-Clone the repository:
-git clone https://github.com/yeahpryme/abnLookupApp
+Clone the repository: git clone https://github.com/EdsCodeRepo/abnLookupApp
 
 cd abnLookupApp
 
-Create and activate a virtual environment:
-python -m venv .venv source .venv/Scripts/activate
+Create and activate a virtual environment.
+
+Linux/macOS:
+
+python -m venv .venv
+
+source .venv/bin/activate
+
+Windows PowerShell:
+
+python -m venv .venv
+
+.venv\Scripts\Activate.ps1
 
 Install dependencies:
-pip install playwright
-python -m playwright install
+
+pip install -r requirements.txt
+Install the Playwright browser:
+python -m playwright install chromium
+
 
 ## Usage
 
-CLI usage: (remove headless to open browser and insert 11 digit ABN no. of choice)
+CLI usage: (replace 11 digit number with ABN and remove headless to open a browser)
 
     Run a lookup directly from the command line:
 
