@@ -66,6 +66,36 @@ def getAllRecords():
     return records
 #storage for records, metadata and logs,
 
+def getRecordById(recordId):
+    conn = sqlite3.connect("abnlookup.db")
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT id, abn, name, status, entityType, timestamp, export_path, screenshot_path
+        FROM records
+        WHERE id = ?
+    """, (recordId,))
+    record = cursor.fetchone()
+    conn.close()
+    return record
 
 
+def deleteRecordById(recordId):
+    conn = sqlite3.connect("abnlookup.db")
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM records WHERE id = ?", (recordId,))
+    conn.commit()
+    deletedCount = cursor.rowcount
+    conn.close()
+    return deletedCount
+
+
+
+def deleteAllRecords():
+    conn = sqlite3.connect("abnlookup.db")
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM records")
+    conn.commit()
+    deletedCount = cursor.rowcount
+    conn.close()
+    return deletedCount
 

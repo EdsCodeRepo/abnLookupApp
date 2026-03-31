@@ -13,7 +13,7 @@ keep only menu display, input parsing, and result printing.
 
 from storage.db import getAllRecords
 from services.lookupService import abnLookUp
-from services.helpers import   deleteRecord, terminalPause
+from services.helpers import   deleteRecord, deleteAllSavedRecords, exportSavedRecord, terminalPause
 from utils.logger import logEvent
 
 
@@ -28,7 +28,6 @@ def menuLoop():
         print("--|       View Saved Records  Enter: 2         |--")
         print("--|       Export a Record     Enter: 3         |--")
         print("--|       Delete a Record     Enter: 4         |--")
-        print("--|       Settings            Enter: 5         |--")
         print("--|       Close Program       Enter: 0         |--")
         print("--------------------------------------------------")
         #another try except, with the main user input at the very start expecting an int
@@ -60,54 +59,31 @@ def menuLoop():
                 if savedRecords:
                     print("Current Saved Records:")
                     for recordData in savedRecords:
-                        print(f"ID: {recordData[0]}")
-                        print(f"ABN: {recordData[1]}")
-                        print(f"Name: {recordData[2]}")
-                        print(f"Status: {recordData[3]}")
-                        print(f"Entity Type: {recordData[4]}")
-                        print(f"Timestamp: {recordData[5]}")
-                        print("-" * 45)
+                       print(f"ID: {recordData[0]} | ABN: {recordData[1]} | Name: {recordData[2]}")
+                    terminalPause()
                 else:
                     print("No saved records found.")
             
             
             elif choice == 3:
-                recordID = int(input("Enter the Record ID# of the item you want to delete: "))
-                deleteRecord(recordID)
-                
+                recordID = int(input("Enter the Record ID# of the item you want to export: "))
+                exportSavedRecord(recordID)
+                terminalPause()
             
             elif choice == 4:
+                print("Enter a record ID to delete one record, or enter ALL to delete every saved record.")
+                deleteChoice = input("Delete selection: ").strip().lower()
+
+                if deleteChoice == "all":
+                   deleteAllSavedRecords()
+                else:                  
+                    recordID = int(deleteChoice)
+                    deleteRecord(recordID)
                 
-                savedRecords = []
-                if savedRecords:
-                    print("Current Saved Items:")
-                    # feel like keeping the concurrent lists was extra work but worth it in terms of provding clear feedback for the user
-                    # with time, I feel I could develop something that did use the single list of dictionaries, get and split strings,
-                    # but I also enjoyed putting this together, its using the same principles described above
-                    # it does turn ID into a const, and I'm not 100% but I think its because the its itterating 'values'
-                    # and IDs values is always going to be 0, start of the list.
-                    for recordData in savedRecords:
-                        ID = recordData[0]
-                        name = recordData[1]
-                        quantity = recordData[2]
-                        price = recordData[3]
-                       
-                        everything = f"ID: {ID}, Name: {name}, Quantity: {quantity}, Price: ${price:.2f}"    
-                        # again building the fstring as aposed to just printf("etc"), just hang up from the original implementation here
-                        print(everything)
-                else:
-                    print("No items in inventory >:o I asked if you wanted to delete it twice!")
-                
-            elif choice == 5:
-                # function init msg for user clarity
-                print("\n To export all saved records enter 1, to export a specific record enter 2, followed by the record ID#")
-                print("\n To export multiple records, seperate each ID# with a comma (e.g. 1,2,3)")
-                exportMode = int(input("Enter the export mode: "))
-                #exportRecord() - prints a textfile with record data/associated screenshots
-                
+                terminalPause()          
             # if the user enters valid type but non existant selection, will promt and give them a heads up
             else:
-                print("\n------ Please Select An Option Between 1-5. ------")
+                print("\n------ Please Select An Option Between 1-4. ------")
                 print("--------- Or Enter 0 to close to program ---------")
         # if the wrong type is input this will trigger and give the user a heads up
         except ValueError:

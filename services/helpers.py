@@ -11,6 +11,7 @@ return a clean result object to the CLI
 
 import json
 from pathlib import Path
+from storage.db import getRecordById, deleteRecordById, deleteAllRecords
 
 def exportRecordJson(recordData, outputDir="exports"):
     Path(outputDir).mkdir(parents=True, exist_ok=True)
@@ -53,19 +54,49 @@ def showIdNamePairs(savedRecords):
         print(f"ID: {recordData[0]} - Name: {recordData[2]}")
 
 
+def exportSavedRecord(recordId):
+    record = getRecordById(recordId)
+
+    if not record:
+        print("No saved record found with that ID.")
+        return
+
+    recordData = {
+        "id": record[0],
+        "abn": record[1],
+        "name": record[2],
+        "status": record[3],
+        "entityType": record[4],
+        "timestamp": record[5],
+        "exportPath": record[6],
+        "screenshotPath": record[7]
+    }
+
+    jsonPath = exportRecordJson(recordData)
+    textPath = exportRecordText(recordData)
+
+    print(f"Record exported to JSON: {jsonPath}")
+    print(f"Record exported to text: {textPath}")
 
 
-def deleteRecord():
-    # Placeholder for record deletion logic
-    pass
-    
-# Searches saved entries, checks if anything is cached, if not loads it from the database ready for other funcs
+def deleteRecord(recordId):
+    deletedCount = deleteRecordById(recordId)
 
+    if deletedCount:
+        print(f"Record ID {recordId} deleted successfully.")
+    else:
+        print("No saved record found with that ID.")
 
-def exportMode():
-    # Placeholder for export mode logic
-    pass
-def exportRecord():
-    # Placeholder for record export logic
-    pass
+def deleteAllSavedRecords():
+    firstConfirm = input("Type delete to remove ALL saved records: ").strip().lower()
+    if firstConfirm != "delete":
+        print("Bulk delete cancelled.")
+        return
 
+    secondConfirm = input("Type yes to confirm permanent deletion of ALL saved records: ").strip().lower()
+    if secondConfirm != "yes":
+        print("Bulk delete cancelled.")
+        return
+
+    deletedCount = deleteAllRecords()
+    print(f"{deletedCount} saved record(s) deleted.")
