@@ -84,12 +84,15 @@ abnLookupApp/
 
 ## Requirements
 
-Python 3.11 or newer
+Python 3.11 or newer (must install venv)
 Playwright for Python
 
 Docker installed - optional
 
 ## Installation
+Make sure you have virtual environment installed:
+
+apt install python3.13-venv
 
 Clone the repository:
 git clone https://github.com/yeahpryme/abnLookupApp
