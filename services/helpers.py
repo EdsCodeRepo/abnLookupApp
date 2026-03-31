@@ -8,7 +8,7 @@ trigger optional export or screenshot operations
 return a clean result object to the CLI
 
 """
-from storage.db import recordList, dbList
+
 
 
 def getSavedRecords():

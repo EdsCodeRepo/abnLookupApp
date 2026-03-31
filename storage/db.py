@@ -11,31 +11,47 @@ The storage layer should hide SQL details from the service and CLI layers.
 
 import sqlite3
 
-dbList = []
-recordList = []
-
 #init sqlite connection and create tables if they dont exist, this is called at the start of the program in main.py, so its ready to go when the user starts interacting with the CLI
 def initDatabase():
     conn = sqlite3.connect("abnlookup.db")
-  
     cursor = conn.cursor()
-
-    # Create the records table if it doesn't exist
-    cursor.execute('''
+    cursor.execute("""
         CREATE TABLE IF NOT EXISTS records (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            abn TEXT NOT NULL,
+            abn TEXT,
             name TEXT,
             status TEXT,
+            entityType TEXT,
             timestamp TEXT,
             export_path TEXT,
             screenshot_path TEXT
         )
-    ''')
-
+    """)
     conn.commit()
     conn.close()
 
+def saveRecord(recordedData):
+    conn = sqlite3.connect("abnlookup.db")
+    cursor = conn.cursor()
+    # Create the records table if it doesn't exist
+    
+    cursor.execute(""" 
+        INSERT INTO records(abn, name, status, entityType, timestamp, export_path, screenshot_path)
+        VALUES (?, ?, ?, ?, ?, ?, ?) """,
+       (
+        recordedData['abn'],
+        recordedData['name'], 
+        recordedData['status'],
+        recordedData['entityType'],
+        recordedData['timestamp'],
+        recordedData.get('export_path'),
+        recordedData.get('screenshot_path')
+      ))
+
+    conn.commit()
+    recordId = cursor.lastrowid
+    conn.close()
+    return recordId
 
 #storage for records, metadata and logs,
 

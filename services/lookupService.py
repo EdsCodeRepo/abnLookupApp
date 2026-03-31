@@ -9,7 +9,7 @@ log success or failure,
 return a simple result object.
 """
 
-
+from storage.db import saveRecord 
 from utils.logger import logEvent
 from services.adapter import runAbnLookup
 # from services.adapter import lookup_abn_with_playwright
@@ -33,10 +33,16 @@ def abnLookUp():
         
     if savePrefernce == "y":
         print("Record will be saved to the database.")
-        saveRecord = True
+        saveData = True
     else:
         print ("Record will not be saved, ensure you export your work.")
-        saveRecord = False
+        saveData = False
+    
+    if saveData:
+        logEvent(f"Saving record for {abnNo} to database.")
+        recordId = saveRecord(adapterResult)
+        logEvent(f"Record for {abnNo} saved successfully with ID: {recordId}")
+    
     while True:
         abnNo = input("Enter the ABN you want to look up: ").strip()
         # Basic validation to check if the input is str (ABN format) ABNS are 11 digits
