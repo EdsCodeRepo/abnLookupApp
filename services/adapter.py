@@ -23,6 +23,19 @@ return structured data or a clear failure
 from playwright.sync_api import sync_playwright
 from datetime import datetime
 
+def extractField(pageText, label):
+    lines = [line.strip() for line in pageText.splitlines() if line.strip()]
+#struggle streeet - If a line contains the label, checks that value appears on the same line after a colon - codex MVP
+    for index, line in enumerate(lines):
+        if label.lower() in line.lower():
+            if ":" in line:
+                afterColon = line.split(":", 1)[1].strip()
+                if afterColon:
+                    return afterColon
+            if index + 1 < len(lines):
+                return lines[index + 1]
+
+    return None
 
 # This is the adapter layer
 def runAbnLookup(abn, headless=True):
@@ -42,13 +55,19 @@ def runAbnLookup(abn, headless=True):
             currentUrl = page.url
             pageText = page.locator("body").inner_text()
 
+            name = extractField(pageText, "Entity Name:")
+            if name and "Current details for ABN" in name:
+                name = None
+            status = extractField(pageText, "ABNStatus")
+            entityType = extractField(pageText, "Entity Type")
+
+
             result = {
                 "success": True,
                 "abn": abn,
-                "name": pageText,
-                "status": f"debugUrl: {currentUrl}",
-                "entityType": "debugBodyCapture",
-                "entityType": "TODO: Extracted Entity Type",
+                "name": name or "Not Found",
+                "status": status or f"parse failed - URL: {currentUrl}",
+                "entityType": entityType or "Not Found",
                 "timestamp": datetime.now().isoformat(),
                 "exportPath": None,
                 "screenshotPath": None,
