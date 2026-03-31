@@ -20,6 +20,8 @@ LOG_FILE_NAME = "abnlookup.log"
 def initLogging():
     """Initialize a shared file-backed logger for the application."""
     logger = logging.getLogger(LOGGER_NAME)
+    # This guard keeps repeated startup/helper calls from attaching duplicate
+    # handlers and writing each log event multiple times.
     if logger.handlers:
         return logger
 

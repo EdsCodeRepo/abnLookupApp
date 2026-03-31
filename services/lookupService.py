@@ -77,19 +77,19 @@ def abnLookUp(abn=None, headless=False, capture_screenshot=True):
                 "message": adapterResult["error"] or f"Lookup for ABN: {abnNo} failed. Please try again.",
                 "data": None
             }
-        if saveData:
-            logEvent(f"Saving record for {abnNo} to database")
-            recordId = saveRecord(adapterResult)
-            logEvent(f"Record for {abnNo} saved successfully with ID: {recordId}")
-        
-        adapterResult["exportPath"] = None
-
+        # Export first so the record carries the final artifact path before any
+        # optional database save persists the metadata.
         jsonPath = exportRecordJson(adapterResult)
         adapterResult["exportPath"] = jsonPath
         logEvent(f"Record for {abnNo} exported to JSON at: {jsonPath}")
 
         textPath = exportRecordText(adapterResult)
         logEvent(f"Record for {abnNo} exported to text at: {textPath}")
+
+        if saveData:
+            logEvent(f"Saving record for {abnNo} to database")
+            recordId = saveRecord(adapterResult)
+            logEvent(f"Record for {abnNo} saved successfully with ID: {recordId}")
 
         logEvent(f"lookup for {abnNo} succeeded")
         return {

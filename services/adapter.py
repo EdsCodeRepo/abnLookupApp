@@ -26,7 +26,8 @@ from pathlib import Path
 
 def extractField(pageText, label):
     lines = [line.strip() for line in pageText.splitlines() if line.strip()]
-#struggle streeet - If a line contains the label, checks that value appears on the same line after a colon - codex MVP
+    # The site is not consistently structured, so we support both "Label: Value"
+    # and "Label" followed by the value on the next non-empty line.
     for index, line in enumerate(lines):
         if label.lower() in line.lower():
             if ":" in line:
@@ -58,6 +59,8 @@ def runAbnLookup(abn, headless=False, capture_screenshot=True):
             screenshotPath = None
 
             if capture_screenshot:
+                # Capture after the search completes so the saved artifact reflects
+                # the result state rather than the blank search form.
                 Path("screenshots").mkdir(parents=True, exist_ok=True)
                 screenshotPath = f"screenshots/abn_{abn}.png"
                 page.screenshot(path=screenshotPath, full_page=True)
