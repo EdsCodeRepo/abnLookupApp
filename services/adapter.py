@@ -54,11 +54,17 @@ def runAbnLookup(abn, headless=True):
 
             currentUrl = page.url
             pageText = page.locator("body").inner_text()
+           
+
 
             name = extractField(pageText, "Entity Name:")
             if name and "Current details for ABN" in name:
                 name = None
-            status = extractField(pageText, "ABNStatus")
+            
+            status = extractField(pageText, "ABN Status:")
+            if not status:
+                status = extractField(pageText, "Status")
+            
             entityType = extractField(pageText, "Entity Type")
 
 
