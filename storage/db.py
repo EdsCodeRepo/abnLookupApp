@@ -53,6 +53,17 @@ def saveRecord(recordedData):
     conn.close()
     return recordId
 
+
+def getAllRecords():
+    conn = sqlite3.connect("abnlookup.db")
+    cursor = conn.cursor()
+    cursor.execute("""SELECT id, abn, name, status, entityType, timestamp, export_path, screenshot_path FROM records
+                      FROM records
+                      ORDER BY id DESC
+    """)               
+    records = cursor.fetchall()
+    conn.close()
+    return records
 #storage for records, metadata and logs,
 
 

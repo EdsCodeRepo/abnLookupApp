@@ -15,7 +15,7 @@ from services.adapter import runAbnLookup
 # from services.adapter import lookup_abn_with_playwright
 # from storage.repository import save_record
 
-def abnLookUp():
+def abnLookUp(abn=None):
     print()  
     print("Starting ABN lookup...")
     logEvent("ABN lookup initiated")
@@ -25,30 +25,38 @@ def abnLookUp():
     print("Individual records can be exported as text files or saved to a local directory of your choice at any time")
     print()
 
+   
+    
+    
+    if abn is None:
+        while True:
+            abnNo = input("Enter the ABN you want to look up: ").strip()
+            # Basic validation to check if the input is str (ABN format) ABNS are 11 digits
+            if abnNo.isdigit() and len(abnNo) == 11:
+                break
+            print("Invalid ABN. Please enter an 11-digit number.")
+    else:
+        abnNo = abn.strip()
+        if not (abnNo.isdigit() and len(abnNo) == 11):
+            print("Invalid ABN provided via command line. Please ensure it's an 11-digit number.")
+            return {
+                "success": False,
+                "message": "Invalid ABN provided via command line. Please ensure it's an 11-digit number.",
+                "data": None
+            }
+    
     while True:
-        savePrefernce = input("Do you want to save this record? (y/n): ").lower().strip()
-        if savePrefernce in ("y", "n"):
+        savePreference = input("Do you want to save this record? (y/n): ").lower().strip()
+        if savePreference in ("y", "n"):
             break
         print("Invalid Selection. Please enter 'y' or 'n'")
         
-    if savePrefernce == "y":
+    if savePreference == "y":
         print("Record will be saved to the database.")
         saveData = True
     else:
         print ("Record will not be saved, ensure you export your work.")
         saveData = False
-    
-    if saveData:
-        logEvent(f"Saving record for {abnNo} to database.")
-        recordId = saveRecord(adapterResult)
-        logEvent(f"Record for {abnNo} saved successfully with ID: {recordId}")
-    
-    while True:
-        abnNo = input("Enter the ABN you want to look up: ").strip()
-        # Basic validation to check if the input is str (ABN format) ABNS are 11 digits
-        if abnNo.isdigit() and len(abnNo) == 11:
-            break
-        print("Invalid ABN. Please enter an 11-digit number.")
     
     
     try:
@@ -63,10 +71,10 @@ def abnLookUp():
                 "message": adapterResult["error"] or f"Lookup for ABN: {abnNo} failed. Please try again.",
                 "data": None
             }
-        if saveRecord:
+        if saveData:
             logEvent(f"Saving record for {abnNo} to database")
-            # save_record(adapterResult)  # Placeholder for actual save function
-            logEvent(f"Record for {abnNo} saved successfully")
+            recordId = saveRecord(adapterResult)
+            logEvent(f"Record for {abnNo} saved successfully with ID: {recordId}")
         
         
         
@@ -76,6 +84,9 @@ def abnLookUp():
             "message": f"Lookup for ABN: {abnNo} succeeded.",
             "data": adapterResult
         }
+    
+    
+    
     except Exception as error:
         logEvent(f"Error during lookup for {abnNo}: {error}")
         return {

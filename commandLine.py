@@ -11,9 +11,10 @@ This layer should not know how Playwright works internally and should not direct
 keep only menu display, input parsing, and result printing.
 """
 
-
+from storage.db import getAllRecords
 from services.lookupService import abnLookUp
-from services.helpers import  retreiveRecord, requestRecord, deleteRecord, exportRecord   
+from services.helpers import   deleteRecord, terminalPause
+from utils.logger import logEvent
 
 
 
@@ -42,9 +43,7 @@ def menuLoop():
                 lookupResult = abnLookUp()  # main input for the lookup checks for the respective function that passes it as a argument for the function
                 
                 if lookupResult["success"]:
-                    currentRecord = lookupResult['data']
-                    
-                    print("\nLookup Successful! Here are the details:\n")
+                    currentRecord = lookupResult["data"]                  
                     
                     print(f"ABN: {currentRecord['abn']}")
                     print(f"Name: {currentRecord['name']}")
@@ -52,12 +51,26 @@ def menuLoop():
                     print(f"Entity Type: {currentRecord['entityType']}")
                     print(f"Timestamp: {currentRecord['timestamp']}")
                 else:
-                    print(f"Error: {lookupResult['message']}")           
+                    print(f"Error: {lookupResult['message']}")
+                    terminalPause()           
             
             elif choice == 2:
                 # main input for the lookup checks for the respective function that passes it as a argument for the function
-                requestRecord() 
-                retreiveRecord()
+                savedRecords = getAllRecords()
+                if savedRecords:
+                    print("Current Saved Records:")
+                    for recordData in savedRecords:
+                        print(f"ID: {recordData[0]}")
+                        print(f"ABN: {recordData[1]}")
+                        print(f"Name: {recordData[2]}")
+                        print(f"Status: {recordData[3]}")
+                        print(f"Entity Type: {recordData[4]}")
+                        print(f"Timestamp: {recordData[5]}")
+                        print("-" * 45)
+                else:
+                    print("No saved records found.")
+            
+            
             elif choice == 3:
                 recordID = int(input("Enter the Record ID# of the item you want to delete: "))
                 deleteRecord(recordID)

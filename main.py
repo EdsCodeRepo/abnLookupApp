@@ -6,25 +6,51 @@ initialize Playwright adapter
 initialize lookup service
 pass control to the CLI layer
 """
-
-from commandLine import menuLoop
+import argparse
 
 import utils.config as config
+from commandLine import menuLoop
 from storage.db import initDatabase
+from services.lookupService import abnLookUp
+from services.helpers import terminalPause
+
 #start the application
 
 
 
 
 def main():
-    # Load configuration
+    # Parse command-line arguments
+    parser = argparse.ArgumentParser(description="ABN Lookup Tool")
+    parser.add_argument("--headless", action="store_true", help="Run in headless mode")
+    parser.add_argument("--abn", help="Enter ABN to look up directly from command line")
+    args = parser.parse_args()
+    initDatabase()
+
+    if args.headless:
+        print("Running in headless mode.")
+    if args.abn:
+        print(f"ABN provided via command line: {args.abn}")
+        lookupResult = abnLookUp(args.abn)
+        if lookupResult["success"]:
+            currentRecord = lookupResult["data"]
+            print(f"ABN: {currentRecord['abn']}")
+            print(f"Name: {currentRecord['name']}")
+            print(f"Status: {currentRecord['status']}")
+            print(f"Entity Type: {currentRecord['entityType']}")
+            print(f"Timestamp: {currentRecord['timestamp']}")
+        else:
+            print(f"Error: {lookupResult['message']}")
+            terminalPause()
+    else:
+        menuLoop()# Load configuration
     
     # Initialize database
-    initDatabase()
+    
     #Starts playwright service
     #initLookup()
     # Start the CLI menu loop with lookup service passed through as arg
-    menuLoop()
+    
    
 
 

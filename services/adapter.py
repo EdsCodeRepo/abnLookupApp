@@ -20,26 +20,53 @@ optionally capture screenshot
 return structured data or a clear failure
 
 """
-
+from playwright.sync_api import sync_playwright
+from datetime import datetime
 
 
 # This is the adapter layer
-def runAbnLookup(abn):
-	"""  
-    Adapter stub for ABN browser lookup
-    Accepts an ABN string and returns structured lookup data in the format expected by the service layer
-	"""
-	return {
-		"success": True,
-		"abn": abn,
-		"name": "Dummy Company Pty Ltd",
-		"status": "Active",
-		"entityType": "Company",
-		"timestamp": "2026-03-31T12:00:00Z",
-		"export_path": None,
-		"screenshot_path": None,
-		"error": None
-	}
-    
+def runAbnLookup(abn, headless=True):
+    try:
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=headless)
+            page = browser.new_page()
+            page.goto("https://abr.business.gov.au/", wait_until="domcontentloaded")
+
+            searchBox = page.locator(input).first
+            searchBox.fill(abn)
+            searchBox.press("Enter")
+            page.wait_for_selector(".search-results", timeout=10000)
+            page.wait_for_load_state("networkidle")
+
+            pageText = page.locator(".search-results").inner_text()
+
+            result = {
+                "success": True,
+                "abn": abn,
+                "name": "TODO: Extracted Name",
+                "status": "TODO: Extracted Status",
+                "entityType": "TODO: Extracted Entity Type",
+                "timestamp": datetime.now().isoformat(),
+                "exportPath": None,
+                "screenshotPath": None,
+                "error": None
+            }
+            browser.close()
+            return result
+
+
+    except Exception as error:
+        return {
+            "success": False,
+            "abn": abn,
+            "name": None,
+            "status": None,
+            "entityType": None,
+            "timestamp": datetime.now().isoformat(),
+            "exportPath": None,
+            "screenshotPath": None,
+            "error": str(error)
+        }
+
     
 

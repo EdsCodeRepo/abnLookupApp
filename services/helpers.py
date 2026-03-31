@@ -9,15 +9,17 @@ return a clean result object to the CLI
 
 """
 
+def terminalPause():
+    input("\nPress Enter to continue...")
 
 
-def getSavedRecords():
-    return []
-
-
-def retreiveRecord():
-    # Placeholder for record retrieval logic
-    pass
+def showIdNamePairs(savedRecords):
+    if not savedRecords:
+        print("No saved records found.")
+        return
+    print("Current Saved Records:")
+    for recordData in savedRecords:
+        print(f"ID: {recordData[0]} - Name: {recordData[2]}")
 
 
 
@@ -27,12 +29,6 @@ def deleteRecord():
     pass
     
 # Searches saved entries, checks if anything is cached, if not loads it from the database ready for other funcs
-def requestRecord():
-    int(input("Enter the record ID# of the item you want to update: "))
-# Actually presents the cached records to the user, this is where the user can select a specific record to view, update or export
-def retreiveRecord():
-    # Placeholder for record retrieval logic
-    pass
 
 
 def exportMode():
