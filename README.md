@@ -1,12 +1,12 @@
 
-ABN Lookup Tool
+## ABN Lookup Tool
 
 A small Python command-line tool that automates ABN Lookup searches using Playwright
 Extracts key business details, and saves results in structured formats.
 
 This tool was built as a lightweight internal utility.
 
-AI usage statement
+## AI usage statement
 
 Codex 5.4 has been used both in discussion during planning and at moments throughout development
 Nothing has been used that I do not comphrehend and have completed a vast majority myself.
@@ -24,6 +24,8 @@ As I write this, I expect I am coming up on 8~ hours give or take a lecture earl
 
 
 
+## Tool Description
+
 Given an 11-digit ABN, the tool will:
 
 navigate to the ABN Lookup website
@@ -35,7 +37,7 @@ capture a screenshot of the lookup session
 write application logs for traceability
  
  
-Features
+## Features
 
 CLI-based workflow
 ABN input validation
@@ -50,7 +52,7 @@ SQLite record storage
 Screenshot capture
 Persistent logging with log export support
 
-Project Structure - GPT 5.4
+## Project Structure - GPT 5.4
 
 abnLookupApp/
 ├── main.py
@@ -70,14 +72,16 @@ abnLookupApp/
 
 
 
-Requirements
+## Requirements
+
 Python 3.11 or newer
 Playwright for Python
 Docker installed - optional
 
 
 
-Installation
+## Installation
+
 Clone the repository:
 git clone <your-repo-url>
 cd abnLookupApp
@@ -87,7 +91,9 @@ source .venv/Scripts/activate
 Install dependencies:
 pip install playwright
 python -m playwright install
-Usage
+
+
+## Usage
 
 
 CLI usage: example
@@ -103,7 +109,7 @@ Run the interactive menu:
 python main.py
 
 
-Example Output
+## Example Output
 
 Example JSON export:
 
@@ -119,18 +125,18 @@ Example JSON export:
     "error": null
 }
 
-Logging
+## Logging
 
 Application events are written to a log file in the logs/ directory.
 The CLI also provides an option to export the current log file for review or sharing.
 
-Notes and Limitations
+## Notes and Limitations
 This tool depends on the current structure and availability of the ABN Lookup website.
 If the website layout changes, extraction logic may need updating.
 This project is intended as a lightweight automation utility, not a production-grade data service.
 Internet access is required during lookup.
 
-This design assumes:
+## This design assumes:
 
 the user has access to Python and project dependencies
 the target ABN Lookup webpage is reachable during runtime
