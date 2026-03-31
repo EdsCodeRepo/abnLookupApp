@@ -39,7 +39,6 @@ def menuLoop():
                 print("Thanks for using the Playwright Tool!")
                 break
             elif choice == 1:
-                # no need to call pass (prodID) here as its all handled within the function based on what the user has input already
                 abnLookUp()
             elif choice == 2:
                 # main input for the lookup checks for the respective function that passes it as a argument for the function
@@ -51,14 +50,14 @@ def menuLoop():
                 
             
             elif choice == 4:
-                if dbList:
+                if :
                     print("Current Saved Items:")
                     # feel like keeping the concurrent lists was extra work but worth it in terms of provding clear feedback for the user
                     # with time, I feel I could develop something that did use the single list of dictionaries, get and split strings,
                     # but I also enjoyed putting this together, its using the same principles described above
                     # it does turn ID into a const, and I'm not 100% but I think its because the its itterating 'values'
                     # and IDs values is always going to be 0, start of the list.
-                    for recordData in recordList:
+                    for recordData in :
                         ID = recordData[0]
                         name = recordData[1]
                         quantity = recordData[2]
