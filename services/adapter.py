@@ -32,19 +32,22 @@ def runAbnLookup(abn, headless=True):
             page = browser.new_page()
             page.goto("https://abr.business.gov.au/", wait_until="domcontentloaded")
 
-            searchBox = page.locator(input).first
+            searchBox = page.locator('input[type="text"]').first
             searchBox.fill(abn)
             searchBox.press("Enter")
-            page.wait_for_selector(".search-results", timeout=10000)
-            page.wait_for_load_state("networkidle")
+            
+            page.wait_for_load_state("domcontentloaded")
+            page.wait_for_timeout(3000)  # Wait for 3 seconds to ensure content is loaded
 
-            pageText = page.locator(".search-results").inner_text()
+            currentUrl = page.url
+            pageText = page.locator("body").inner_text()
 
             result = {
                 "success": True,
                 "abn": abn,
-                "name": "TODO: Extracted Name",
-                "status": "TODO: Extracted Status",
+                "name": pageText,
+                "status": f"debugUrl: {currentUrl}",
+                "entityType": "debugBodyCapture",
                 "entityType": "TODO: Extracted Entity Type",
                 "timestamp": datetime.now().isoformat(),
                 "exportPath": None,
