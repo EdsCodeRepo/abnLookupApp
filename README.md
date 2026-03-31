@@ -137,24 +137,30 @@ Use 0-5 and y/n/enter to navigate and execute operations.
 Menu explicitly explains operation and runs on a loop until exited.
 
 
-## Run With Docker
+Build the image:
 
-Build image(include . to denote local folder):
-
-docker build -t abnlookup-app:dev .
+docker build --no-cache -t abnlookup-app:dev .
 
 Run with interactive menu:
 
-docker run -rm -it abnlookup-app:dev
+docker run --rm -it abnlookup-app:dev
 
-Run Directly as CLI (replace ABN):
+Run directly with an ABN:
 
 docker run --rm -it abnlookup-app:dev python main.py --abn 51824753556 --headless
 
-Run CLI with browser opening:
+Run in headed mode:
 
-docker run --rm -it abnlookup-app:dev python main.py --abn 11111111111
+docker run --rm -it abnlookup-app:dev python main.py --abn 51824753556
 
+## Troubleshooting
+
+If you see `ModuleNotFoundError: No module named 'playwright'`
+
+install project dependencies and browser binaries first:
+
+pip install -r requirements.txt
+python -m playwright install chromium
 ## Example Output
 
 Example JSON export:
