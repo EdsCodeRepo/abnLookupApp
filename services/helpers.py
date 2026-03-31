@@ -12,19 +12,25 @@ return a clean result object to the CLI
 import json
 from pathlib import Path
 from storage.db import getRecordById, deleteRecordById, deleteAllRecords
+from utils.logger import exportLogFile
 
-def exportRecordJson(recordData, outputDir="exports"):
+
+EXPORTS_DIR = "Exports"
+
+def exportRecordJson(recordData, outputDir=EXPORTS_DIR):
     Path(outputDir).mkdir(parents=True, exist_ok=True)
 
     fileName = f"abn_{recordData['abn']}.json"
     filePath = Path(outputDir) / fileName
 
     with open(filePath, "w") as jsonFile:
-        json.dump(recordData, jsonFile, indent=4)
+        exportData = dict(recordData)
+        exportData["exportPath"] = exportData.get("exportPath") or str(filePath)
+        json.dump(exportData, jsonFile, indent=4)
 
-    return filePath
+    return str(filePath)
 
-def exportRecordText(recordData, outputDir="exports"):
+def exportRecordText(recordData, outputDir=EXPORTS_DIR):
     Path(outputDir).mkdir(parents=True, exist_ok=True)
 
     fileName = f"abn_{recordData['abn']}.txt"
@@ -40,6 +46,10 @@ def exportRecordText(recordData, outputDir="exports"):
         textFile.write(f"Screenshot Path: {recordData['screenshotPath']}\n ")
 
     return str(filePath)
+
+
+def exportApplicationLog(outputDir=EXPORTS_DIR):
+    return exportLogFile(outputDir=outputDir)
 
 def terminalPause():
     input("\nPress Enter to continue...")

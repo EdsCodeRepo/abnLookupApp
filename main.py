@@ -13,6 +13,7 @@ from commandLine import menuLoop
 from storage.db import initDatabase
 from services.lookupService import abnLookUp
 from services.helpers import terminalPause
+from utils.logger import initLogging, logEvent
 
 #start the application
 
@@ -25,7 +26,9 @@ def main():
     parser.add_argument("--headless", action = "store_true", help = "Run in headless mode")
     parser.add_argument("--abn", help = "Enter ABN to look up directly from command line")
     args = parser.parse_args()
+    initLogging()
     initDatabase()
+    logEvent("Application started")
     # still need to give the option to run menu loop or a single loopup in either headless or headed mode
     if args.headless:
         print("Running in headless mode.")

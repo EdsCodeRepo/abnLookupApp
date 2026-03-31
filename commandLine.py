@@ -13,7 +13,7 @@ keep only menu display, input parsing, and result printing.
 
 from storage.db import getAllRecords
 from services.lookupService import abnLookUp
-from services.helpers import   deleteRecord, deleteAllSavedRecords, exportSavedRecord, terminalPause
+from services.helpers import deleteRecord, deleteAllSavedRecords, exportApplicationLog, exportSavedRecord, terminalPause
 from utils.logger import logEvent
 
 
@@ -28,6 +28,7 @@ def menuLoop():
         print("--|       View Saved Records  Enter: 2         |--")
         print("--|       Export a Record     Enter: 3         |--")
         print("--|       Delete a Record     Enter: 4         |--")
+        print("--|       Export Logs         Enter: 5         |--")
         print("--|       Close Program       Enter: 0         |--")
         print("--------------------------------------------------")
         #another try except, with the main user input at the very start expecting an int
@@ -81,9 +82,14 @@ def menuLoop():
                     deleteRecord(recordID)
                 
                 terminalPause()          
+            elif choice == 5:
+                exportPath = exportApplicationLog()
+                logEvent(f"User exported application log to {exportPath}")
+                print(f"Application log exported to: {exportPath}")
+                terminalPause()
             # if the user enters valid type but non existant selection, will promt and give them a heads up
             else:
-                print("\n------ Please Select An Option Between 1-4. ------")
+                print("\n------ Please Select An Option Between 1-5. ------")
                 print("--------- Or Enter 0 to close to program ---------")
         # if the wrong type is input this will trigger and give the user a heads up
         except ValueError:
