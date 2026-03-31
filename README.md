@@ -105,11 +105,11 @@ python -m playwright install
 
 ## Usage
 
-CLI usage: example
+CLI usage: (remove headless to open browser and insert 11 ABN of choice)
 
     Run a lookup directly from the command line:
 
-    python main.py --abn 51824753556
+    python main.py --abn 51824753556 --headless
 
 OR
 
@@ -121,6 +121,24 @@ Use 0-5 and y/n/enter to navigate and execute operations.
 
 Menu explicitly explains operation and runs on a loop until exited.
 
+
+## Run With Docker
+
+Build image(include . to denote local folder):
+
+docker build -t abnlookup-app:dev .
+
+Run with interactive menu:
+
+docker run -rm -it abnlookup-app:dev
+
+Run Directly as CLI (replace ABN):
+
+docker run --rm -it abnlookup-app:dev python main.py --abn 51824753556 --headless
+
+Run CLI with browser opening:
+
+docker run --rm -it abnlookup-app:dev python main.py --abn 11111111111
 
 ## Example Output
 
