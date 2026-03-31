@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+.git/
+projectSnapshots/
+Docs/
+abnlookup.db
+Exports/
+screenshots/
+logs/
