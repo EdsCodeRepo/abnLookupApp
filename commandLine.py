@@ -39,7 +39,19 @@ def menuLoop():
                 print("Thanks for using the Playwright Tool!")
                 break
             elif choice == 1:
-                abnLookUp()
+                lookupResult = abnLookUp()  # main input for the lookup checks for the respective function that passes it as a argument for the function
+                
+                if lookupResult["success"]:
+                    print("\nABN Lookup Successful!")
+                    print("Here are the details:")
+                    print(f"ABN: {lookupResult['abn']}")
+                    print(f"Name: {lookupResult['name']}")
+                    print(f"Status: {lookupResult['status']}")
+                    print(f"Entity Type: {lookupResult['entityType']}")
+                    print(f"Timestamp: {lookupResult['timestamp']}")
+                else:
+                    print(f"Error: {lookupResult['message']}")           
+            
             elif choice == 2:
                 # main input for the lookup checks for the respective function that passes it as a argument for the function
                 requestRecord() 
@@ -50,14 +62,16 @@ def menuLoop():
                 
             
             elif choice == 4:
-                if :
+                
+                savedRecords = []
+                if savedRecords:
                     print("Current Saved Items:")
                     # feel like keeping the concurrent lists was extra work but worth it in terms of provding clear feedback for the user
                     # with time, I feel I could develop something that did use the single list of dictionaries, get and split strings,
                     # but I also enjoyed putting this together, its using the same principles described above
                     # it does turn ID into a const, and I'm not 100% but I think its because the its itterating 'values'
                     # and IDs values is always going to be 0, start of the list.
-                    for recordData in :
+                    for recordData in savedRecords:
                         ID = recordData[0]
                         name = recordData[1]
                         quantity = recordData[2]

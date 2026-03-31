@@ -31,7 +31,7 @@ def abnLookUp():
             break
         print("Invalid Selection. Please enter 'y' or 'n'")
         
-    if savePrefernce() == "y":
+    if savePrefernce == "y":
         print("Record will be saved to the database.")
         saveRecord = True
     else:
@@ -54,7 +54,7 @@ def abnLookUp():
             logEvent(f"lookup for {abnNo} failed")
             return {
                 "success": False,
-                "message": f"Lookup for ABN: {abnNo} failed. Please try again.",
+                "message": adapterResult["error"] or f"Lookup for ABN: {abnNo} failed. Please try again.",
                 "data": None
             }
         if saveRecord:
