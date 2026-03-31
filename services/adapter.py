@@ -39,16 +39,12 @@ def extractField(pageText, label):
     return None
 
 # This is the adapter layer
-def runAbnLookup(abn, headless=True):
+def runAbnLookup(abn, headless=False, capture_screenshot=True):
     try:
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=headless)
             page = browser.new_page()
             page.goto("https://abr.business.gov.au/", wait_until="domcontentloaded")
-
-            Path("screenshots").mkdir(parents=True, exist_ok=True)
-            screenshotPath = f"screenshots/abn_{abn}.png"
-            page.screenshot(path=screenshotPath, full_page=True)
 
             searchBox = page.locator('input[type="text"]').first
             searchBox.fill(abn)
@@ -59,6 +55,12 @@ def runAbnLookup(abn, headless=True):
 
             currentUrl = page.url
             pageText = page.locator("body").inner_text()
+            screenshotPath = None
+
+            if capture_screenshot:
+                Path("screenshots").mkdir(parents=True, exist_ok=True)
+                screenshotPath = f"screenshots/abn_{abn}.png"
+                page.screenshot(path=screenshotPath, full_page=True)
            
 
 

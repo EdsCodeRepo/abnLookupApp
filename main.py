@@ -1,5 +1,4 @@
 """
-load configuration
 initialize logging
 initialize database connection/repository
 initialize Playwright adapter
@@ -8,7 +7,6 @@ pass control to the CLI layer
 """
 import argparse
 
-import utils.config as config
 from commandLine import menuLoop
 from storage.db import initDatabase
 from services.lookupService import abnLookUp
@@ -29,12 +27,14 @@ def main():
     initLogging()
     initDatabase()
     logEvent("Application started")
-    # still need to give the option to run menu loop or a single loopup in either headless or headed mode
-    if args.headless:
-        print("Running in headless mode.")
     if args.abn:
         print(f"ABN provided via command line: {args.abn}")
-        lookupResult = abnLookUp(args.abn)
+        print(f"Running direct lookup in {'headless' if args.headless else 'headed'} mode.")
+        lookupResult = abnLookUp(
+            args.abn,
+            headless=args.headless,
+            capture_screenshot=False,
+        )
         if lookupResult["success"]:
             currentRecord = lookupResult["data"]
             print(f"ABN: {currentRecord['abn']}")
@@ -50,15 +50,7 @@ def main():
             menuLoop()
     
     else:
-        menuLoop()# Load configuration
-    
-    # Initialize database
-    
-    #Starts playwright service
-    #initLookup()
-    # Start the CLI menu loop with lookup service passed through as arg
-    
-   
+        menuLoop()
 
 
 

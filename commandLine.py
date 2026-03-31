@@ -40,7 +40,10 @@ def menuLoop():
                 print("Thanks for using the Playwright Tool!")
                 break
             elif choice == 1:
-                lookupResult = abnLookUp()  # main input for the lookup checks for the respective function that passes it as a argument for the function
+                lookupResult = abnLookUp(
+                    headless=False,
+                    capture_screenshot=True,
+                )
                 
                 if lookupResult["success"]:
                     currentRecord = lookupResult["data"]                  

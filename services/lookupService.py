@@ -16,7 +16,7 @@ from services.adapter import runAbnLookup
 # from storage.repository import save_record
 from services.helpers import exportRecordJson, exportRecordText
 
-def abnLookUp(abn=None):
+def abnLookUp(abn=None, headless=False, capture_screenshot=True):
     print()  
     print("Starting ABN lookup...")
     logEvent("ABN lookup initiated")
@@ -61,8 +61,14 @@ def abnLookUp(abn=None):
     
     
     try:
-        logEvent(f"lookup for {abnNo} started")
-        adapterResult = runAbnLookup(abnNo)
+        logEvent(
+            f"lookup for {abnNo} started | headless={headless} | capture_screenshot={capture_screenshot}"
+        )
+        adapterResult = runAbnLookup(
+            abnNo,
+            headless=headless,
+            capture_screenshot=capture_screenshot,
+        )
 
         if not adapterResult["success"]:
             logEvent(f"lookup for {abnNo} failed")
