@@ -22,6 +22,7 @@ return structured data or a clear failure
 """
 from playwright.sync_api import sync_playwright
 from datetime import datetime
+from pathlib import Path
 
 def extractField(pageText, label):
     lines = [line.strip() for line in pageText.splitlines() if line.strip()]
@@ -44,6 +45,10 @@ def runAbnLookup(abn, headless=True):
             browser = p.chromium.launch(headless=headless)
             page = browser.new_page()
             page.goto("https://abr.business.gov.au/", wait_until="domcontentloaded")
+
+            Path("screenshots").mkdir(parents=True, exist_ok=True)
+            screenshotPath = f"screenshots/abn_{abn}.png"
+            page.screenshot(path=screenshotPath, full_page=True)
 
             searchBox = page.locator('input[type="text"]').first
             searchBox.fill(abn)
@@ -76,7 +81,7 @@ def runAbnLookup(abn, headless=True):
                 "entityType": entityType or "Not Found",
                 "timestamp": datetime.now().isoformat(),
                 "exportPath": None,
-                "screenshotPath": None,
+                "screenshotPath": screenshotPath,
                 "error": None
             }
             browser.close()
